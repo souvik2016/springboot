@@ -20,14 +20,20 @@ public class LoginController {
 	@Autowired
 	LoginRepository loginRepo;
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, value="/registration")
 	  public Map<String, Object> createUser(@RequestBody Map<String, Object> userMap){
 	    User book = new User(userMap.get("loginId").toString(),
 	    		userMap.get("password").toString(),
 	    		userMap.get("confirmPassword").toString(),
 	    		userMap.get("name").toString(),
-	    		userMap.get("email").toString());
-	    
+	    		userMap.get("email").toString(),
+	    		userMap.get("phoneType").toString(),
+	    		userMap.get("phoneNo").toString(),
+	    		userMap.get("mailingAddress").toString(),
+	    		userMap.get("taxIdNo").toString(),
+	    		userMap.get("primaryIdType").toString(),
+	    		userMap.get("primaryIdNo").toString());
+	    System.out.println("login id:::::"+userMap.get("loginId").toString());
 	    Map<String, Object> response = new LinkedHashMap<String, Object>();
 	    if(userMap.get("password").toString().equals(userMap.get("confirmPassword").toString())){
 	    	loginRepo.save(book);
@@ -40,9 +46,9 @@ public class LoginController {
 	  }
 
 	  @RequestMapping(method = RequestMethod.POST, value="/login")
-	  public String getUserDetails(@RequestBody String loginId){
+	  public void getUserDetails(@RequestBody String loginId){
 		  System.out.println("loginID::::"+loginId);
 		  User user = loginRepo.findByLoginId(loginId);
-	    return user.getPassword();
+	    /*return user.getPassword();*/
 	  }
 }
